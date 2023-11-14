@@ -1,7 +1,9 @@
 #include "stack.h"
 #include <iostream>
 #include <stdlib.h>
-#include <windows.h>
+#include <windows.h> // impressão de cores
+#include <time.h>    // rand()
+#include <stdio.h>   // rand()
 
 #define TAM 6
 
@@ -15,7 +17,7 @@ typedef struct
   Stack pilha;
 } Tubo;
 
-void iniciar_vazias(Tubo T[])
+void iniciar_vazias(Tubo T[]) // feita
 {
   for (int i = 0; i < TAM; i++)
   {
@@ -26,16 +28,30 @@ void iniciar_vazias(Tubo T[])
 
 void distribuir(Tubo T[])
 {
+  int num, freq[TAM - 1] = {0};
+  srand(time(0));
+  for (int i = 0; i < TAM - 1; i++)
+  {
+    for (int j = 0; j < TAM - 1; j++)
+    {
+      do
+      {
+        num = rand() % (TAM - 1);
+      } while (freq[num] == TAM - 1);
+      freq[num]++;
+      push(T[i].pilha, num+1);
+    }
+  }
 }
 
-void muda_cor(int cor)
+void muda_cor(int cor) // feita
 {
   HANDLE Saida;
   Saida = GetStdHandle(STD_OUTPUT_HANDLE);
   SetConsoleTextAttribute(Saida, cor);
 }
 
-void imprime_cor(int I)
+void imprime_cor(int I) // feita
 {
   int cor[5] = {9, 13, 2, 15, 6};
   muda_cor(cor[I - 1]);
