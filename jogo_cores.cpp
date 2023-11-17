@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <windows.h> // impressão de cores
-#include <time.h>    // rand()
+#include <time.h>    // srand()
 #include <stdio.h>   // rand()
 
 #define TAM 6
@@ -65,28 +65,19 @@ void mostrar(Tubo T[])
   Tubo Aux[TAM];
   iniciar_vazias(Aux);
 
-  // Copia os elementos para a matriz Aux
+  cout << endl;
   for (int i = 0; i < TAM - 1; i++)
-  {
-    while (!isEmpty(T[i].pilha))
-    {
-      elemento = pop(T[i].pilha);
-      push(Aux[i].pilha, elemento);
-    }
-  }
-
-  // Exibe os elementos da matriz Aux
-  for (int i = TAM - 2; i >= 0; i--)
   {
     for (int j = 0; j < TAM - 1; j++)
     {
-      if (!isEmpty(Aux[j].pilha))
+      if (!isEmpty(T[j].pilha))
       {
-        elemento = pop(Aux[j].pilha);
+        elemento = pop(T[j].pilha);
+
         cout << "  | ";
         imprime_cor(elemento);
         cout << " |";
-        push(T[j].pilha, elemento);  // Restaura os elementos para a pilha principal
+        push(Aux[j].pilha, elemento);
       }
       else
       {
@@ -96,7 +87,6 @@ void mostrar(Tubo T[])
     cout << endl;
   }
 
-  // Restaura os elementos para as pilhas principais
   for (int i = 0; i < TAM - 1; i++)
   {
     while (!isEmpty(Aux[i].pilha))
@@ -106,21 +96,18 @@ void mostrar(Tubo T[])
     }
   }
 
-  // Exibe as linhas inferiores
   for (int i = 0; i < TAM; i++)
   {
     cout << "  -----";
   }
   cout << endl;
 
-  // Exibe os números das colunas
   for (int i = 0; i < TAM; i++)
   {
     cout << "    " << i + 1 << "  ";
   }
   cout << endl;
 }
-
 
 int validar(Tubo T[], int origem, int destino)
 {
@@ -129,7 +116,7 @@ int validar(Tubo T[], int origem, int destino)
     cout << "\nTubo de origem vazio, escolha outro!";
     return 0;
   }
-  
+
   if (!isEmpty(T[destino - 1].pilha))
   {
     cout << "\nTuco de destino cheio, escolha outro\n";
@@ -188,7 +175,6 @@ int jogada(Tubo T[])
   }
   return 1;
 }
-
 
 int main()
 {
