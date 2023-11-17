@@ -40,6 +40,7 @@ void distribuir(Tubo T[])
       } while (freq[num] == TAM - 1);
       freq[num]++;
       push(T[i].pilha, num + 1);
+      T[i].numero_elementos++;
     }
   }
 }
@@ -68,25 +69,23 @@ void mostrar(Tubo T[])
   cout << endl;
   for (int i = 0; i < TAM - 1; i++)
   {
-    for (int j = 0; j < TAM - 1; j++)
+    for (int j = 0; j < TAM; j++)
     {
       if (!isEmpty(T[j].pilha))
       {
         elemento = pop(T[j].pilha);
-
-        cout << "  | ";
+        cout << "\t| ";
         imprime_cor(elemento);
         cout << " |";
         push(Aux[j].pilha, elemento);
       }
       else
       {
-        cout << "  |   |";
+        cout << "\t|   | ";
       }
     }
     cout << endl;
   }
-
   for (int i = 0; i < TAM - 1; i++)
   {
     while (!isEmpty(Aux[i].pilha))
@@ -98,28 +97,34 @@ void mostrar(Tubo T[])
 
   for (int i = 0; i < TAM; i++)
   {
-    cout << "  -----";
+    cout << "\t-----";
   }
   cout << endl;
 
   for (int i = 0; i < TAM; i++)
   {
-    cout << "    " << i + 1 << "  ";
+    cout << "\t  " << i + 1 << "  ";
   }
   cout << endl;
 }
 
 int validar(Tubo T[], int origem, int destino)
 {
-  if (isEmpty(T[origem - 1].pilha))
+  if (origem == destino)
   {
-    cout << "\nTubo de origem vazio, escolha outro!";
+    cout << "\nEscolha tubos diferentes!\n";
     return 0;
   }
 
-  if (!isEmpty(T[destino - 1].pilha))
+  if (isEmpty(T[origem - 1].pilha) || T[origem].numero_elementos == 0)
   {
-    cout << "\nTuco de destino cheio, escolha outro\n";
+    cout << "\nTubo de origem vazio, escolha outro!\n";
+    return 0;
+  }
+
+  if (!isEmpty(T[destino - 1].pilha) || T[destino].numero_elementos == TAM - 1)
+  {
+    cout << "\nTuvo de destino cheio, escolha outro\n";
     return 0;
   }
 
@@ -128,16 +133,24 @@ int validar(Tubo T[], int origem, int destino)
 
 int validar_fim(Tubo T[])
 {
-  for (int i = 1; i < TAM; i++)
+  int contador = 0;
+  for (int i = 0; i < TAM - 1; i++)
   {
     if (T[i].numero_elementos == TAM - 1)
     {
-      cout << "\nParabéns! Você venceu!\n";
-      return 1;
+      contador++;
     }
   }
+
+  if (contador == TAM - 1)
+  {
+    cout << "Parabens, voce ganhou!";
+    return 1;
+  }
+
   return 0;
 }
+
 
 int jogada(Tubo T[])
 {
@@ -154,23 +167,22 @@ int jogada(Tubo T[])
 
   if (ORIGEM < 1 || ORIGEM > 6 || DESTINO < 1 || DESTINO > 6)
   {
-    cout << "\nMOVIMENTO INVALIDO!\n";
+    cout << "\nEscolha um tubo de 1 a 6!\n";
     return 1;
   }
 
   if (validar(T, ORIGEM, DESTINO))
   {
-    int escolha = pop(T[ORIGEM - 1].pilha);
-    push(T[DESTINO - 1].pilha, escolha);
+    stack_element v = pop(T[ORIGEM - 1].pilha);
+    push(T[DESTINO - 1].pilha, v);
     T[ORIGEM - 1].numero_elementos--;
     T[DESTINO - 1].numero_elementos++;
 
+    cout << "\n\nNumero de elementos tubo Origem: " << T[ORIGEM - 1].numero_elementos << endl;
+    cout << "Numero de elementos tubo Destino: " << T[DESTINO - 1].numero_elementos << endl;
+
     if (validar_fim(T))
-    {
-      mostrar(T);
-      cout << "\nParabéns!!! Você venceu!\n";
       return 0;
-    }
     return 1;
   }
   return 1;
@@ -192,7 +204,6 @@ int main()
       if (retorno == 0)
         break;
     } while (retorno);
-    mostrar(T);
     cout << "\n P A R A B E N S ! ! ! ! ";
     cout << "\n Jogar Novamente? 1(sim)  ou  0(nao): ";
     cin >> repetir;
