@@ -1,4 +1,10 @@
-#include "stack.h"
+// Breno Gaia Crepaldi RA: 22007851
+// Douglas Alves de Lima Monttozo 
+// Henrique Zacarias
+// Rafael Tamura
+
+//#include "stack.h"
+#include "stack_ld.h"
 #include <iostream>
 #include <stdlib.h>
 #include <windows.h> // impressão de cores
@@ -124,7 +130,7 @@ int validar(Tubo T[], int origem, int destino)
 
   if (!isEmpty(T[destino - 1].pilha) || T[destino].numero_elementos == TAM - 1)
   {
-    cout << "\nTuvo de destino cheio, escolha outro\n";
+    cout << "\nTubo de destino cheio, escolha outro\n";
     return 0;
   }
 
@@ -144,7 +150,7 @@ int validar_fim(Tubo T[])
 
   if (contador == TAM - 1)
   {
-    cout << "Parabens, voce ganhou!";
+    cout << "Voce ganhou!";
     return 1;
   }
 
@@ -177,9 +183,6 @@ int jogada(Tubo T[])
     push(T[DESTINO - 1].pilha, v);
     T[ORIGEM - 1].numero_elementos--;
     T[DESTINO - 1].numero_elementos++;
-
-    cout << "\n\nNumero de elementos tubo Origem: " << T[ORIGEM - 1].numero_elementos << endl;
-    cout << "Numero de elementos tubo Destino: " << T[DESTINO - 1].numero_elementos << endl;
 
     if (validar_fim(T))
       return 0;
