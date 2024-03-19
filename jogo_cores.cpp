@@ -1,10 +1,5 @@
-// Breno Gaia Crepaldi RA: 22007851
-// Douglas Alves de Lima Monttozo 
-// Henrique Zacarias
-// Rafael Tamura
-
-//#include "stack.h"
-#include "stack_ld.h"
+//#include "lib/stack.h"
+#include "lib/stack_ld.h"
 #include <iostream>
 #include <stdlib.h>
 #include <windows.h> // impressão de cores
